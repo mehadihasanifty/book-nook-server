@@ -63,6 +63,8 @@ function handleError(res, error) {
   return res.status(500).json({ message: "Something went wrong. Please try again." });
 }
 
+
+
 // GET /books — public shelf
 app.get("/books", async (_req, res) => {
   try {
@@ -85,6 +87,9 @@ app.get("/books/:id", requireAuth, async (req, res) => {
   }
 });
 
+
+
+
 // POST /books — add a book for the authenticated reader
 app.post("/books", requireAuth, async (req, res) => {
   const { title, author, category, image, description, totalCopies } = req.body ?? {};
@@ -105,6 +110,9 @@ app.post("/books", requireAuth, async (req, res) => {
     handleError(res, error);
   }
 });
+
+
+
 
 // PATCH /books/:id — only the book's owner can edit it
 app.patch("/books/:id", requireAuth, async (req, res) => {
@@ -133,6 +141,8 @@ app.patch("/books/:id", requireAuth, async (req, res) => {
   }
 });
 
+
+
 // DELETE /books/:id — owner only; books with active loans must be returned first
 app.delete("/books/:id", requireAuth, async (req, res) => {
   if (!validId(req.params.id)) return res.status(400).json({ message: "Invalid book ID." });
@@ -149,6 +159,9 @@ app.delete("/books/:id", requireAuth, async (req, res) => {
     handleError(res, error);
   }
 });
+
+
+
 
 // POST /borrows — atomic stock decrement plus one active borrow per reader/book
 app.post("/borrows", requireAuth, async (req, res) => {
@@ -193,6 +206,8 @@ app.get("/borrows", requireAuth, async (req, res) => {
   }
 });
 
+
+
 // DELETE /borrows/:id — return only the reader's own loan and restore one copy
 app.delete("/borrows/:id", requireAuth, async (req, res) => {
   if (!validId(req.params.id)) return res.status(400).json({ message: "Invalid borrow ID." });
@@ -210,6 +225,6 @@ app.delete("/borrows/:id", requireAuth, async (req, res) => {
   }
 });
 
-app.listen(port, () => console.log(`BookNook API listening at http://localhost:${port}`));
+app.listen(port, () => console.log(`Server is running:${port}`));
 
 export default app;
