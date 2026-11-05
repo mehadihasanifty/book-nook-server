@@ -12,7 +12,7 @@ const jwtSecret = process.env.API_JWT_SECRET;
 if (!mongoUrl) throw new Error("Missing MONGODB_URL in the server .env file.");
 if (!jwtSecret) throw new Error("Missing API_JWT_SECRET in the server .env file.");
 
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || "http://localhost:3000" }));
+app.use(cors({ origin: process.env.CLIENT_ORIGIN || `${process.env.NEXT_PUBLIC_API_URL}` }));
 app.use(express.json({ limit: "1mb" }));
 
 const client = new MongoClient(mongoUrl);
@@ -223,6 +223,10 @@ app.delete("/borrows/:id", requireAuth, async (req, res) => {
   } catch (error) {
     handleError(res, error);
   }
+});
+
+app.get("/", (_req, res) => {
+  res.status(200).json({ message: "BookNook API is running" });
 });
 
 app.listen(port, () => console.log(`Server is running:${port}`));
