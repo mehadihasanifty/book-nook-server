@@ -228,3 +228,4 @@ app.delete("/borrows/:id", requireAuth, async (req, res) => {
 app.listen(port, () => console.log(`Server is running:${port}`));
 
 
+export default app;
