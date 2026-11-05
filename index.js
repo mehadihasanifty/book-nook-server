@@ -65,11 +65,13 @@ function handleError(res, error) {
 
 
 
-// GET /books — public shelf
-app.get("/books", async (_req, res) => {
+// GET /books — public shelf; optional ?limit=N returns the newest N books
+app.get("/books", async (req, res) => {
   try {
-    const result = await books.find().sort({ addedDate: -1 }).toArray();
-    res.json(result);
+    const limit = Number(req.query.limit);
+    let query = books.find().sort({ addedDate: -1 });
+    if (Number.isInteger(limit) && limit > 0) query = query.limit(limit);
+    res.json(await query.toArray());
   } catch (error) {
     handleError(res, error);
   }
