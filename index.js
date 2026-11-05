@@ -198,13 +198,13 @@ app.post("/borrows", requireAuth, async (req, res) => {
 });
 
 // GET /borrows — only the authenticated reader's loans
-// app.get("/borrows", requireAuth, async (req, res) => {
-//   try {
-//     res.json(await borrows.find({ userEmail: req.user.email, returnedAt: null }).sort({ borrowDate: -1 }).toArray());
-//   } catch (error) {
-//     handleError(res, error);
-//   }
-// });
+app.get("/borrows", requireAuth, async (req, res) => {
+  try {
+    res.json(await borrows.find({ userEmail: req.user.email, returnedAt: null }).sort({ borrowDate: -1 }).toArray());
+  } catch (error) {
+    handleError(res, error);
+  }
+});
 
 
 
